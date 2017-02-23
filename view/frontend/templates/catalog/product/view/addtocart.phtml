@@ -12,9 +12,9 @@ $om = \Magento\Framework\App\ObjectManager::getInstance();
 
 $customerSession = $om->get('Magento\Customer\Model\Session');
 
-if ($customerSession->getCustomer()->getGroupId() <= 1)  {
-    return;
-}
+// if ($customerSession->getCustomer()->getGroupId() <= 1)  {
+//     return;
+// }
 
 ?>
 <?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); ?>
@@ -33,10 +33,11 @@ if ($customerSession->getCustomer()->getGroupId() <= 1)  {
         <div class="field qty">
             <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></label>
             <div class="control">
-                <button type="button" class="dec button">-</button>
-		<input type="hidden" id="clicks"
+                <button type="button" class="dec button cart"
+                        ref="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty_increments') * 1 ?>">-</button>
+                <!--input type="hidden" id="clicks"
                        name="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty_increments') * 1 ?>"
-                       value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>" />
+                       value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>" /-->
                 <input type="number"
                        name="qty"
                        id="qty"
@@ -45,7 +46,8 @@ if ($customerSession->getCustomer()->getGroupId() <= 1)  {
                        title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
                        data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
                        />
-                <button type="button" class="inc button">+</button>
+                <button type="button" class="inc button cart"
+                        ref="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty_increments') * 1 ?>">+</button>
             </div>
         </div>
         <?php endif; ?>
@@ -81,7 +83,7 @@ if ($customerSession->getCustomer()->getGroupId() <= 1)  {
     }
 </script>
 <?php endif; ?>
-<script>
+<!--script>
     require(['jquery', 'jquery/ui'], function($){
         incrementVar = 0;
         $('.inc.button').click(function() {
@@ -126,4 +128,4 @@ if ($customerSession->getCustomer()->getGroupId() <= 1)  {
           incrementVar += newValue;
         });
     }); 
-</script>
+</script-->

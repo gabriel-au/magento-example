@@ -46,11 +46,11 @@ $om = \Magento\Framework\App\ObjectManager::getInstance();
 
 $customerSession = $om->get('Magento\Customer\Model\Session');
 
-$showPriceNeo = false;
+$showPriceNeo = true;
 
-if ($customerSession->getCustomer()->getGroupId() > 1)  {
-        $showPriceNeo = true;
-}
+// if ($customerSession->getCustomer()->getGroupId() > 1)  {
+//         $showPriceNeo = true;
+// }
 
 $showAddToCompare = false;
 
@@ -104,11 +104,11 @@ $showAddToCompare = false;
                             <?php echo $block->getBlockHtml('formkey')?>
 
                                 <div class="control qty">
-                                    <button type="button" class="dec button">-</button>
-                                        <input type="hidden" id="clicks"
-                                           name="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty_increments') * 1 ?>"
+                                    <button type="button" class="dec button cart"
+                                            ref="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty_increments') * 1 ?>">-</button>
+                                        <!--input type="hidden" id="clicks"
                                            value="<?php /* @escapeNotVerified */ echo $productStockObj->getData('min_sale_qty') * 1 ?>"
-					   max="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty') * 1 ?>" />
+                                           max="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty') * 1 ?>" /-->
                                     <input type="number"
                                            name="qty"
                                            id="qty"
@@ -117,7 +117,8 @@ $showAddToCompare = false;
                                            title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
                                            data-validate="<?php echo $block->escapeHtml(json_encode($_product->getQuantityValidators())) ?>"
                                            />
-                                    <button type="button" class="inc button">+</button>
+                                    <button type="button" class="inc button cart"
+                                            ref="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty_increments') * 1 ?>">+</button>
                                 </div>
                                 <div class="control qty add">
                                             <button type="submit"
@@ -188,7 +189,7 @@ $showAddToCompare = false;
         </script>
     <?php endif; ?>
 <?php endif; ?>
-<script>
+<!--script>
     require(['jquery', 'jquery/ui'], function($){
       incrementVar = 0;
       $('.inc.button').click(function() {
@@ -236,4 +237,4 @@ $showAddToCompare = false;
         incrementVar += newValue;
       });
     }); 
-</script>
+</script-->
