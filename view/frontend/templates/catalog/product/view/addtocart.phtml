@@ -1,0 +1,129 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+
+$customerSession = $om->get('Magento\Customer\Model\Session');
+
+if ($customerSession->getCustomer()->getGroupId() <= 1)  {
+    return;
+}
+
+?>
+<?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); ?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable()): ?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()): ?>
+        <?php
+	    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+            $product_id = $product->getId();
+            $productStockObj = $objectManager->get('Magento\CatalogInventory\Api\StockRegistryInterface')->getStockItem($product_id);
+            //print_r($productStockObj->getData());
+        ?>
+        <div class="field qty">
+            <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></label>
+            <div class="control">
+                <button type="button" class="dec button">-</button>
+		<input type="hidden" id="clicks"
+                       name="<?php /* @escapeNotVerified */ echo $productStockObj->getData('qty_increments') * 1 ?>"
+                       value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>" />
+                <input type="number"
+                       name="qty"
+                       id="qty"
+                       maxlength="12"
+                       value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>"
+                       title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
+                       data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                       />
+                <button type="button" class="inc button">+</button>
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+            <button type="submit"
+                    title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>"
+                    class="action primary tocart"
+                    id="product-addtocart-button">
+                <span><?php /* @escapeNotVerified */ echo $buttonTitle ?></span>
+            </button>
+            <?php echo $block->getChildHtml('', true) ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/product/view/validation": {
+                "radioCheckboxClosest": ".nested"
+            }
+        }
+    }
+</script>
+<?php if (!$block->isRedirectToCartEnabled()) : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "catalogAddToCart": {
+                "bindSubmit": false
+            }
+        }
+    }
+</script>
+<?php endif; ?>
+<script>
+    require(['jquery', 'jquery/ui'], function($){
+        incrementVar = 0;
+        $('.inc.button').click(function() {
+          var $this = $(this);
+          var $input = $this.prev('input');
+          var $inputInc = $input.prev('input');
+          var $parent = $input.closest('div');
+          var clicks = parseInt($inputInc.val()) + 1;
+          var increment = parseInt($inputInc.attr('name'));
+
+	  if (increment == 0) {
+              increment = 1;
+          }
+
+	  var newValue = clicks * increment;
+
+	  $inputInc.val(clicks);
+          $input.val(newValue);
+          incrementVar += newValue;
+        });
+        $('.dec.button').click(function() {
+          var $this = $(this);
+          var $inputInc = $this.next('input');
+          var $input = $inputInc.next('input');
+          var $parent = $inputInc.closest('div');
+          var clicks = parseInt($inputInc.val()) - 1;
+	  var increment = parseInt($inputInc.attr('name'));
+
+          if (increment == 0) { 
+              increment = 1;
+          }   
+
+          var newValue = clicks * increment;
+	  
+	  if (clicks < 1) {
+            clicks = 1;
+            newValue = 1;
+          }
+	  
+          $inputInc.val(clicks);
+          $input.val(newValue);
+          incrementVar += newValue;
+        });
+    }); 
+</script>
