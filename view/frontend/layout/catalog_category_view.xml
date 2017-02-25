@@ -3,6 +3,7 @@
 	<head>
 		<css src="neoext_addqtyincrement::css/addqtyincrement.css"/>
         <script src="neoext_addqtyincrement::js/addqtyincrement.js"/>
+        <!-- <script src="neoext_addqtyincrement::js/addqtyincrement-button.js"/> -->
     </head>
     <body>
         <referenceBlock name="category.products.list">
@@ -11,4 +12,7 @@
             </action>
         </referenceBlock>
     </body>
+
+    <referenceBlock name="category.product.addto.compare" remove="true" />
+
 </page>

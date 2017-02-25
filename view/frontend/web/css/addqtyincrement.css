@@ -3,6 +3,9 @@
 		height: 27px;
 		width: 50px !important;
 	}
+	.input-text.qty.listed {
+		margin: 5px;
+	}
 }
 .control.qty {
 	margin-top: 10px;
@@ -24,7 +27,7 @@
 	.input-text.qty {
 		width: 100% !important;
 		height: 30px !important;
-		margin-top: 10px;
+		margin-top: 5px;
 		margin-bottom: 5px;
 		float: left;
 	}
@@ -35,6 +38,12 @@
 	}
 }
 .control.qty {
-    margin-top: 10px;
-    text-align: center;
+	margin-top: 10px;
+	text-align: center;
+}
+.product-item-actions .actions-primary {
+	display: block;
+}
+.page-products .product-item-actions {
+	text-align: center;
 }
