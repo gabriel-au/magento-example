@@ -124,7 +124,7 @@ $showAddToCompare = false;
                                             <button type="submit"
                                                 title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
                                                 class="action primary tocart inc">
-                                            <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                            <span>Add <strong class="text-qty-list"><?php /* @escapeNotVerified */ echo $productStockObj->getData('min_sale_qty') * 1 ?></strong> to Cart</span>
                                         </button>
                                     </form>
                                 </div>
